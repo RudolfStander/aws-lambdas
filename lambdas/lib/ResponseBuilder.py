@@ -50,3 +50,6 @@ def BadRequest(body=None):
 
 def NotFound(body=None):
     return ResponseBuilder(404, body)
+
+def ServerError(body=None):
+    return ResponseBuilder(500, body)

@@ -16,7 +16,7 @@ class DB:
 
     def setup_table(self, table_name):
         if table_name is None:
-            raise ValueError("Table name is empty")
+            raise UnboundLocalError("Table name is empty")
 
         self.table = self.dynamodb.Table(table_name)
 
