@@ -1,0 +1,178 @@
+###############################################################################
+## General directories to ignore                                             ##
+###############################################################################
+
+build/**	# any built sources
+build/
+build
+bin/** # any compiled sources
+bin/
+bin
+tmp/** # any tmp folder
+tmp/
+tmp
+temp/** # any temp folder
+temp/
+temp
+stuffs/
+
+###############################################################################
+## C files; from git@github.com:github/gitignore.git                         ##
+###############################################################################
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+
+###############################################################################
+## Python files                                                              ##
+###############################################################################
+
+*.pyc
+__pycache__
+
+###############################################################################
+## Java files; from git@github.com:github/gitignore.git                      ##
+###############################################################################
+
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+#*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+###############################################################################
+## vim files; from git@github.com:github/gitignore.git                       ##
+###############################################################################
+
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+###############################################################################
+## tags files; from git@github.com:github/gitignore.git                      ##
+###############################################################################
+
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+!TAGS/
+tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+
+###############################################################################
+## archive files; from git@github.com:github/gitignore.git                   ##
+###############################################################################
+
+# It's better to unpack these files and commit the raw source because
+# git has its own built in compression methods.
+*.7z
+*.jar
+*.rar
+*.zip
+*.gz
+*.bzip
+*.bz2
+*.xz
+*.lzma
+*.cab
+
+#packing-only formats
+*.iso
+*.tar
+
+#package management formats
+*.dmg
+*.xpi
+*.gem
+*.egg
+*.deb
+*.rpm
+*.msi
+*.msm
+*.msp
+
+###############################################################################
+## Linux files; from git@github.com:github/gitignore.git                     ##
+###############################################################################
+
+*~
+
+# KDE directory preferences
+.directory
+
+###############################################################################
+## Mac OSX files; from git@github.com:github/gitignore.git                   ##
+###############################################################################
+
+.DS_Store
+.AppleDouble
+.LSOverride
+*.dSYM
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+###############################################################################
+## IDE / Editor ignored files 			                                         ##
+###############################################################################
+
+.metadata/*
+.metadata
+.vscode/*
+.vscode

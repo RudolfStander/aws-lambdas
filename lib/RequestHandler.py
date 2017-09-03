@@ -13,19 +13,6 @@ class RequestHandler:
     The type field will be used to identify the handling function to be used.
     The headers are optional, but can be used to give the RequestHandler some additional info.
     The body carries the payload of the request.
-
-    Every handle method should return a response in the form of:
-
-    {
-        "status": int,
-        "headers: dictionary (optional),
-        "body": dictionary
-    }
-
-    The status should be a valid HTTP status code.
-    The headers are optional, but can be used to give the receiver some additional info.
-    The body carries the payload of the response. In the event that the response is an error,
-    the body could contain an error message
     """
 
     def __init__(self):
@@ -43,7 +30,7 @@ class RequestHandler:
             raise ValueError("The request is empty")
         if "type" not in request or request["type"] is None:
             raise ValueError("No type field on request")
-        if not isinstance(request["type"]) is str:
+        if not isinstance(request["type"], str):
             raise ValueError("Type field is not a string")
         if request["type"] not in self.handlers:
             raise NotImplementedError("No handler for request type found")
@@ -53,7 +40,7 @@ class RequestHandler:
     def handle(self, request):
         """Validates and handles the request."""
         self.validate(request)
-        self.handlers[request["type"]](request)
+        return self.handlers[request["type"]](request)
 
     def add_validator(self, request_type, validator):
         """
