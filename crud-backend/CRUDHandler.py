@@ -1,4 +1,4 @@
-from .DB import DB
+from ..lib.DB import DB
 from ..lib.ResponseBuilder import OK, BadRequest, ServerError, NotFound
 from ..lib.RequestHandler import RequestHandler
 
@@ -11,9 +11,9 @@ class CRUDHandler(RequestHandler):
         RequestHandler.__init__(self)
 
         if not table_name is None:
-            self.db = DB(table_name, test)
+            self._db = DB(table_name, test)
         elif not db is None:
-            self.db = db
+            self._db = db
 
         self.add_validator("GET", self.get_validator)
         self.add_handler("GET", self.get_handler)
@@ -33,6 +33,8 @@ class CRUDHandler(RequestHandler):
             return BadRequest(value_error.message)
         except TypeError as type_error:
             return ServerError(type_error.message)
+        except KeyError as k_error:
+            return ServerError(k_error.message)
         except NotImplementedError as ni_error:
             return ServerError(ni_error.message)
         except Exception as error:
@@ -43,10 +45,10 @@ class CRUDHandler(RequestHandler):
             raise ValueError("No body in GET request")
 
     def get_handler(self, request):
-        if self.db is None:
+        if self._db is None:
             raise UnboundLocalError("No DB class was instantiated")
 
-        db_response = self.db.get(request["body"])
+        db_response = self._db.get(request["body"])
 
         if db_response is None or not isinstance(db_response) is dict or not db_response:
             return NotFound()

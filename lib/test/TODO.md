@@ -8,12 +8,15 @@
 
 ## ResponseBuilder ##
 
-* Initialization
-* Building the response
-* Dumping the response as json
-* Adding a status
-* Adding a header
-* Adding a body
+* ~~Adding a status~~
+* ~~Adding a header~~
+* ~~Adding multiple headers~~
+* ~~Adding a body~~
+* ~~Building the response~~
+* ~~Dumping the response as json~~
+* ~~Initialize with status~~
+* ~~Initialize with body~~
+* ~~Initialize with headers~~
 
 ## DB ##
 
