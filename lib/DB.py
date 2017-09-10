@@ -1,4 +1,10 @@
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
+
+def parse_filter_expression(filter_expression):
+    # TODO: parse the map based expression and return an expression using
+    #       boto3's Key and Attr classes
+    return ""
 
 class DB:
     def __init__(self, table_name=None, test=False):
@@ -12,20 +18,12 @@ class DB:
             self.table = self.dynamodb.Table(table_name)
 
     def setup_table(self, table_name):
-        if table_name is None or len(table_name) == 0:
+        if table_name is None or not table_name:
             raise UnboundLocalError("Invalid table name")
 
         self.table = self.dynamodb.Table(table_name)
 
-    def create_table(self, table_name, key):
-        if table_name is None or len(table_name) == 0:
-            raise UnboundLocalError("Invalid table name")
-        if key is None or not key:
-            raise UnboundLocalError("Invalid key")
-
-        # TODO: create table
-
-    def get(self, key=None):
+    def get(self, key):
         if key is None or not key:
             raise UnboundLocalError("Invalid key")
 
@@ -38,28 +36,42 @@ class DB:
 
         return db_response["Item"]
 
-    def get_all(self, limit=None, params=None):
-        # TODO: use limit and params
-        db_response = self.table.scan(Select="ALL_ATTRIBUTES")
+    def scan(self, limit=None, filter_expression=None, start_key=None):
+        args = {}
+
+        if not limit is None:
+            args["Limit"] = limit
+        if not filter_expression is None:
+            raise NotImplementedError("TODO")
+            # args["FilterExpression"] = parse_filter_expression(filter_expression)
+        if not start_key is None:
+            args["ExclusiveStartKey"] = start_key
+
+        db_response = self.table.scan(Select="ALL_ATTRIBUTES", **args)
 
         if db_response is None:
             return None
         if not "Items" in db_response:
             return None
-
-        return db_response["Items"]
+        if not "LastEvaluatedKey" in db_response:
+            return (db_response["Items"], None)
+        else:
+            return (db_response["Items"], db_response["LastEvaluatedKey"])
 
     def search(self, params):
         # TODO: search using params
-        pass
-        
+        raise NotImplementedError("TODO")
+
     def create(self, item):
+        # TODO: use condition to block the overwriting of an existing entry
+        raise NotImplementedError("TODO")
+        
+    def put(self, item):
         return self.table.put_item(Item=item)
 
     def update(self, item):
-        # TODO: check if there is a proper way of updating
+        # TODO: implement updating using update expressions
         raise NotImplementedError("TODO")
 
     def delete(self, key):
-        # TODO: check how to delete
-        raise NotImplementedError("TODO")
+        return self.table.delete_item(Key=key)
