@@ -17,14 +17,16 @@ class CRUDHandler(RequestHandler):
 
         self.add_validator("GET", self.get_validator)
         self.add_handler("GET", self.get_handler)
-        self.add_validator("GET_ALL", self.get_all_validator)
-        self.add_handler("GET_ALL", self.get_all_handler)
+        self.add_validator("PUT", self.put_validator)
+        self.add_handler("PUT", self.put_handler)
+        self.add_validator("SCAN", self.scan_validator)
+        self.add_handler("SCAN", self.scan_handler)
+        self.add_validator("DELETE", self.delete_validator)
+        self.add_handler("DELETE", self.delete_handler)
         self.add_validator("CREATE", self.create_validator)
         self.add_handler("CREATE", self.create_handler)
         self.add_validator("UPDATE", self.update_validator)
         self.add_handler("UPDATE", self.update_handler)
-        self.add_validator("DELETE", self.delete_validator)
-        self.add_handler("DELETE", self.delete_handler)
 
     def handle(self, request):
         try:
@@ -50,16 +52,68 @@ class CRUDHandler(RequestHandler):
 
         db_response = self._db.get(request["body"])
 
-        if db_response is None or not isinstance(db_response) is dict or not db_response:
+        if db_response is None or not isinstance(db_response, dict) or not db_response:
             return NotFound()
 
         return OK(db_response)
 
-    def get_all_validator(self, request):
-        raise NotImplementedError("TODO, implement get_all_validator")
+    def put_validator(self, request):
+        if "body" not in request or request["body"] is None:
+            raise ValueError("No body in PUT request")
 
-    def get_all_handler(self, request):
-        raise NotImplementedError("TODO, implement get_all_handler")
+    def put_handler(self, request):
+        if self._db is None:
+            raise UnboundLocalError("No DB class was instantiated")
+
+        db_response = self._db.get(request["body"])
+
+        return OK(db_response)
+
+    def scan_validator(self, request):
+        if "body" in request and not request["body"] is None:
+            if "limit" in request and not isinstance(request["limit"], int):
+                raise ValueError("Invalid type for 'limit' field in SCAN request")
+            if "start_key" in request and not isinstance(request["start_key"], dict):
+                raise ValueError("Invalid type for 'start_key' field in SCAN request")
+
+    def scan_handler(self, request):
+        if self._db is None:
+            raise UnboundLocalError("No DB class was instantiated")
+
+        limit = None
+        start_key = None
+
+        if "limit" in request:
+            limit = request["limit"]
+        if "start_key" in request:
+            start_key = request["start_key"]
+
+        db_response = self._db.scan(limit=limit, start_key=start_key)
+
+        if db_response is None or not isinstance(db_response[0], dict) or not db_response[0]:
+            return NotFound()
+
+        if not db_response[1] is None:
+            return OK({
+                "items": db_response[0],
+                "last_key": db_response[1]
+            })
+        else:
+            return OK({
+                "items": db_response[0],
+            })
+
+    def delete_validator(self, request):
+        if "body" not in request or request["body"] is None:
+            raise ValueError("No body in GET request")
+
+    def delete_handler(self, request):
+        if self._db is None:
+            raise UnboundLocalError("No DB class was instantiated")
+
+        db_response = self._db.get(request["body"])
+
+        return OK(db_response)
 
     def create_validator(self, request):
         raise NotImplementedError("TODO, implement create_validator")
@@ -72,9 +126,3 @@ class CRUDHandler(RequestHandler):
 
     def update_handler(self, request):
         raise NotImplementedError("TODO, implement update_handler")
-
-    def delete_validator(self, request):
-        raise NotImplementedError("TODO, implement delete_validator")
-
-    def delete_handler(self, request):
-        raise NotImplementedError("TODO, implement delete_handler")
