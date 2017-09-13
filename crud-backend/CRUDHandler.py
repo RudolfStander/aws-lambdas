@@ -29,18 +29,20 @@ class CRUDHandler(RequestHandler):
         self.add_handler("UPDATE", self.update_handler)
 
     def handle(self, request):
+        print("request: ", request)
+
         try:
-            return RequestHandler.handle(self, request)
+            return RequestHandler.handle(self, request).json()
         except ValueError as value_error:
-            return BadRequest(value_error.message)
+            return BadRequest(value_error.message).json()
         except TypeError as type_error:
-            return ServerError(type_error.message)
+            return ServerError(type_error.message).json()
         except KeyError as k_error:
-            return ServerError(k_error.message)
+            return ServerError(k_error.message).json()
         except NotImplementedError as ni_error:
-            return ServerError(ni_error.message)
+            return ServerError(ni_error.message).json()
         except Exception as error:
-            return ServerError(error.message)
+            return ServerError(error.message).json()
 
     def get_validator(self, request):
         if "body" not in request or request["body"] is None:
@@ -65,7 +67,7 @@ class CRUDHandler(RequestHandler):
         if self._db is None:
             raise UnboundLocalError("No DB class was instantiated")
 
-        db_response = self._db.get(request["body"])
+        db_response = self._db.put(request["body"])
 
         return OK(db_response)
 
@@ -90,7 +92,7 @@ class CRUDHandler(RequestHandler):
 
         db_response = self._db.scan(limit=limit, start_key=start_key)
 
-        if db_response is None or not isinstance(db_response[0], dict) or not db_response[0]:
+        if db_response is None or not isinstance(db_response[0], list) or not db_response[0]:
             return NotFound()
 
         if not db_response[1] is None:
@@ -111,7 +113,7 @@ class CRUDHandler(RequestHandler):
         if self._db is None:
             raise UnboundLocalError("No DB class was instantiated")
 
-        db_response = self._db.get(request["body"])
+        db_response = self._db.delete(request["body"])
 
         return OK(db_response)
 

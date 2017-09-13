@@ -75,16 +75,21 @@ class ResponseBuilder:
         if "status" not in self.response:
             raise KeyError("No status defined for response")
 
+        # TODO: DynamoDB returns Decimal for numeric values, but it is not JSON serializable,
+        #       so either extend the serializer, OR
+        #       recursively check if there is a Decimal value, OR
+        #       let the lambda handle it (probably the best option)
+
         return dumps(self.response)
 
 def OK(body=None):
-    return ResponseBuilder(200, body)
+    return ResponseBuilder(status=200, body=body)
 
 def BadRequest(body=None):
-    return ResponseBuilder(400, body)
+    return ResponseBuilder(status=400, body=body)
 
 def NotFound(body=None):
-    return ResponseBuilder(404, body)
+    return ResponseBuilder(status=404, body=body)
 
 def ServerError(body=None):
-    return ResponseBuilder(500, body)
+    return ResponseBuilder(status=500, body=body)

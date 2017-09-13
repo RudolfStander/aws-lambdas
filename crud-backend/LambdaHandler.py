@@ -1,5 +1,5 @@
 from .CRUDHandler import CRUDHandler
 
 def lambda_handler(request, context):
-    handler = CRUDHandler("some_table_name")
+    handler = CRUDHandler(table_name="TestDB")
     return handler.handle(request)

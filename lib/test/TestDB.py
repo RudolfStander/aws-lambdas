@@ -187,6 +187,7 @@ class TestDB(unittest.TestCase):
         self.assertEqual("random", db_response[1]["word"])
 
     def test_scan_with_filter(self):
+        # TODO: test after it has been implemented
         pass
 
     def test_scan_with_start_key(self):
