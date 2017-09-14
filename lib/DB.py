@@ -1,12 +1,20 @@
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 
+__author__ = 'Rudolf Stander'
+__contact__ = 'rudolfstan@gmail.com'
+__see__ = 'https://github.com/RudolfStander/aws-lambdas'
+
 def parse_filter_expression(filter_expression):
     # TODO: parse the map based expression and return an expression using
     #       boto3's Key and Attr classes
     return ""
 
 class DB:
+    """
+    TODO: comment
+    """
+
     def __init__(self, table_name=None, test=False):
         if test:
             self.dynamodb = boto3.resource("dynamodb", region_name="eu-west-1", endpoint_url="http://localhost:8000",

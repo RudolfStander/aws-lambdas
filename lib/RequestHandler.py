@@ -1,3 +1,7 @@
+__author__ = 'Rudolf Stander'
+__contact__ = 'rudolfstan@gmail.com'
+__see__ = 'https://github.com/RudolfStander/aws-lambdas'
+
 class RequestHandler:
     """
     TODO: Proper intro comment

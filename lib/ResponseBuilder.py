@@ -1,5 +1,9 @@
 from json import dumps
 
+__author__ = 'Rudolf Stander'
+__contact__ = 'rudolfstan@gmail.com'
+__see__ = 'https://github.com/RudolfStander/aws-lambdas'
+
 class ResponseBuilder:
     """
     TODO: Proper intro comment

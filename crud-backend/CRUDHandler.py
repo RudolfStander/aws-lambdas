@@ -2,6 +2,10 @@ from ..lib.DB import DB
 from ..lib.ResponseBuilder import OK, BadRequest, ServerError, NotFound
 from ..lib.RequestHandler import RequestHandler
 
+__author__ = 'Rudolf Stander'
+__contact__ = 'rudolfstan@gmail.com'
+__see__ = 'https://github.com/RudolfStander/aws-lambdas'
+
 class CRUDHandler(RequestHandler):
     """
       TODO: comment
